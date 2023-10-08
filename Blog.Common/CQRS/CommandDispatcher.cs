@@ -14,9 +14,12 @@ namespace Blog.Common.CQRS
 
         public CommandDispatcher(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
-        public Task<Result<TCommandResult>> Dispatch<TCommandResult>(ICommand command, CancellationToken cancellation)
+        public Task<TCommandResult> Dispatch<TCommand, TCommandResult>(TCommand command, CancellationToken cancellation) 
+            where TCommand : ICommand
+            where TCommandResult : Result
         {
-            var handler = _serviceProvider.GetRequiredService<ICommandHandler<ICommand, TCommandResult>>();
+            var scope = _serviceProvider.CreateScope();
+            var handler = scope.ServiceProvider.GetRequiredService<ICommandHandler<ICommand, TCommandResult>>();
             return handler.Handle(command, cancellation);
         }
     }

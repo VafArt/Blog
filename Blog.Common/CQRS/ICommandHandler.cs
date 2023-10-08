@@ -2,8 +2,10 @@
 
 namespace Blog.Common.CQRS
 {
-    public interface ICommandHandler<in ICommand, TCommandResult>
+    public interface ICommandHandler<in TCommand, TCommandResult>
+        where TCommand : ICommand
+        where TCommandResult : Result
     {
-        Task<Result<TCommandResult>> Handle(ICommand command, CancellationToken cancellation);
+        Task<TCommandResult> Handle(TCommand command, CancellationToken cancellation);
     }
 }

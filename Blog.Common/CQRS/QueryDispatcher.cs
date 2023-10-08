@@ -9,9 +9,12 @@ namespace Blog.Common.CQRS
 
         public QueryDispatcher(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
-        public Task<Result<TQueryResult>> Dispatch<TQueryResult>(IQuery query, CancellationToken cancellation)
+        public Task<TQueryResult> Dispatch<TQuery, TQueryResult>(TQuery query, CancellationToken cancellation)
+            where TQuery : IQuery
+            where TQueryResult : Result
         {
-            var handler = _serviceProvider.GetRequiredService<IQueryHandler<IQuery, TQueryResult>>();
+            using var scope = _serviceProvider.CreateScope();
+            var handler = scope.ServiceProvider.GetRequiredService<IQueryHandler<TQuery, TQueryResult>>();
             return handler.Handle(query, cancellation);
         }
     }

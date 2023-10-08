@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blog.Common.Domain
 {
-    internal class ValidationResult<TValue> : Result<TValue>, IValidationResult
+    public class ValidationResult<TValue> : Result<TValue>, IValidationResult
     {
         private ValidationResult(Error[] errors)
             : base(default, false, IValidationResult.ValidationError) =>

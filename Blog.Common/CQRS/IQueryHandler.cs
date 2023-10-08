@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Blog.Common.CQRS
 {
-    public interface IQueryHandler<in IQuery, TQueryResult>
+    public interface IQueryHandler<in TQuery, TQueryResult>
+        where TQuery : IQuery
+        where TQueryResult : Result
     {
-        Task<Result<TQueryResult>> Handle(IQuery query, CancellationToken cancellation);
+        Task<TQueryResult> Handle(TQuery query, CancellationToken cancellation);
     }
 }

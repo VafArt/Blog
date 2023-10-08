@@ -4,6 +4,7 @@ using Blog.PostsService.Domain.Repositories;
 using Blog.PostsService.Infrastructure;
 using Carter;
 using Blog.Common;
+using Blog.PostsService.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCommon();
 builder.Services.AddInfrastructure();
+builder.Services.AddApplication();
 
 builder.Services.AddCarter();
 

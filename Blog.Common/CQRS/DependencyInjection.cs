@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Blog.Common.CQRS.Decorators;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,9 @@ namespace Blog.Common.CQRS
     {
         public static IServiceCollection AddCqrs(this IServiceCollection services)
         {
-            services.TryAddSingleton<ICommandDispatcher, CommandDispatcher>();
-            services.TryAddSingleton<IQueryDispatcher, QueryDispatcher>();
+            services.AddSingleton<ICommandDispatcher, CommandDispatcher>();
+            services.AddSingleton<IQueryDispatcher, QueryDispatcher>()
+                .Decorate<IQueryDispatcher, ValidationRequestDispatcherDecorator>();
 
             services.Scan(selector =>
             {

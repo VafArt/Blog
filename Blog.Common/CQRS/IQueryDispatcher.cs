@@ -4,6 +4,8 @@ namespace Blog.Common.CQRS
 {
     public interface IQueryDispatcher
     {
-        Task<Result<TQueryResult>> Dispatch<TQueryResult>(IQuery query, CancellationToken cancellation);
+        Task<TQueryResult> Dispatch<TQuery, TQueryResult>(TQuery query, CancellationToken cancellation)
+            where TQuery : IQuery
+            where TQueryResult : Result;
     }
 }

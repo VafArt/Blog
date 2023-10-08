@@ -40,7 +40,7 @@ namespace Blog.PostsService.Infrastructure.Repositories
                 SELECT * FROM posts
                 WHERE id = @postId
                 """;
-            var post = await dbConnection.QuerySingleOrDefaultAsync<Post>(sql, new { postId.Value });
+            var post = await dbConnection.QuerySingleOrDefaultAsync<Post>(sql, new { postId = postId.Value });
 
             return post;
         }

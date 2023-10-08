@@ -1,4 +1,6 @@
-﻿using Blog.PostsService.Domain.Repositories;
+﻿using Blog.Common.CQRS;
+using Blog.PostsService.Application.Posts.GetPostById;
+using Blog.PostsService.Domain.Repositories;
 using Blog.PostsService.Infrastructure.Repositories;
 using Blog.PostsService.Infrastructure.TypeHandlers;
 using Dapper;
