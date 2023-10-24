@@ -1,4 +1,4 @@
-﻿using Blog.Common.Domain;
+﻿using Blog.Common.Domain.Results;
 
 namespace Blog.Common.CQRS
 {

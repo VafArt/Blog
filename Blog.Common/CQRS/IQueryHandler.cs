@@ -1,4 +1,4 @@
-﻿using Blog.Common.Domain;
+﻿using Blog.Common.Domain.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;

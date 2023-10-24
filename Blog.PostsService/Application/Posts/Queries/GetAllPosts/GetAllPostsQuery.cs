@@ -2,5 +2,5 @@
 
 namespace Blog.PostsService.Application.Posts.Queries.GetAllPosts
 {
-    public record GetAllPostsQuery : IQuery;
+    public sealed record GetAllPostsQuery : IQuery;
 }

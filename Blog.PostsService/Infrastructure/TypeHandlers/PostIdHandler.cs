@@ -12,9 +12,9 @@ namespace Blog.PostsService.Infrastructure.TypeHandlers
             return new PostId(typedValue);
         }
 
-        public override void SetValue(IDbDataParameter parameter, PostId value)
+        public override void SetValue(IDbDataParameter parameter, PostId? value)
         {
-            parameter.Value = value.Value;
+            parameter.Value = value?.Value;
         }
     }
 }

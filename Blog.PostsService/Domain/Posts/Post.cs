@@ -2,12 +2,13 @@
 {
     public class Post
     {
-        public PostId Id { get; set; } = new PostId(Guid.NewGuid());
+        public PostId Id { get; set; } = null!;
+
         public string Title { get; set; } = string.Empty;
 
         public string Content { get; set; } = string.Empty;
 
-        public List<string> Tags { get; set; } = new();
+        public ICollection<Tag> Tags { get; set; } = new List<Tag>();
 
         public string? PreviewImageUri { get; set; }
 

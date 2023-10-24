@@ -1,0 +1,116 @@
+version: '3.4'
+
+networks:
+  blog-net:
+    driver: bridge
+
+services:
+  blog.postsservice:
+    image: ${DOCKER_REGISTRY-}blogpostsservice
+    build:
+      context: .
+      dockerfile: Blog.PostsService/Dockerfile
+    networks:
+      - blog-net
+    depends_on:
+      - posts-service-db
+  
+  posts-service-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "Asakura1"
+    volumes:
+      - ./.containers/postsDatabase:/var/opt/postgres/data
+    ports:
+      - "5002:5432"
+    networks:
+      - blog-net
+
+  blog.commentsservice:
+    image: ${DOCKER_REGISTRY-}blogcommentsservice
+    build:
+      context: .
+      dockerfile: Blog.CommentsService/Dockerfile
+    networks:
+      - blog-net
+    depends_on:
+      - comments-service-db
+        
+
+  comments-service-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "Asakura1"
+    volumes:
+      - ./.containers/commentsDatabase:/var/opt/postgres/data
+    ports:
+      - "6002:5432"
+    networks:
+      - blog-net
+
+  blog-mq:
+    image: rabbitmq:management
+    container_name: Blog.RabbitMq
+    hostname: blog-mq
+    volumes:
+      - ./.containers/queue/data/:/var/lib/rabbitmq
+      - ./.containers/queue/log/:/var/log/rabbitmq
+    environment:
+        RABBITMQ_DEFAULT_USER: guest
+        RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - blog-net
+    ports:
+      - "15672:15672" 
+
+  blog.postsreportingservice:
+    image: ${DOCKER_REGISTRY-}blogpostsreportingservice
+    build:
+      context: .
+      dockerfile: Blog.PostsReportingService/Dockerfile
+    networks:
+      - blog-net
+    depends_on:
+      - posts-reporting-service-db
+
+  posts-reporting-service-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "Asakura1"
+    volumes:
+      - ./.containers/postsReportingDatabase:/var/opt/postgres/data
+    ports:
+      - "8002:5432"
+    networks:
+      - blog-net
+
+
+  blog.identityservice:
+    image: ${DOCKER_REGISTRY-}blogidentityservice
+    build:
+      context: .
+      dockerfile: IdentityService/Dockerfile
+    networks:
+      - blog-net
+    depends_on:
+      - identity-service-db
+
+  identity-service-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "Asakura1"
+    volumes:
+      - ./.containers/identityDatabase:/var/opt/postgres/data
+    ports:
+      - "9002:5432"
+    networks:
+      - blog-net
+

@@ -1,5 +1,4 @@
-﻿using Blog.Common.CQRS;
-using Blog.PostsService.Application.Posts.GetPostById;
+﻿using Blog.Common.Infrastructure;
 using Blog.PostsService.Domain.Repositories;
 using Blog.PostsService.Infrastructure.Repositories;
 using Blog.PostsService.Infrastructure.TypeHandlers;
@@ -14,6 +13,8 @@ namespace Blog.PostsService.Infrastructure
             services.AddScoped<IPostRepository, PostRepository>();
 
             SqlMapper.AddTypeHandler(new PostIdHandler());
+
+            services.AddSingleton<IDbInitializer, NpgsqlPostsDbInitializer>();
 
             return services;
         }

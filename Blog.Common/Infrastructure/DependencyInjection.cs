@@ -1,5 +1,4 @@
 ﻿using Blog.Common.Domain.Repositories;
-using Blog.Common.Infrastructure.TypeHandlers;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,8 +22,6 @@ namespace Blog.Common.Infrastructure
             services.AddScoped<UnitOfWorkFactory>();
             services.AddScoped<IUnitOfWorkFactory>(x => x.GetRequiredService<UnitOfWorkFactory>());
             services.AddScoped<IDbConnectionProvider>(x => x.GetRequiredService<UnitOfWorkFactory>());
-
-            SqlMapper.AddTypeHandler(new StringListHandler());
 
             return services;
         }

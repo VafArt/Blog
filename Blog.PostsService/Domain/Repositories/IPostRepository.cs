@@ -11,5 +11,9 @@ namespace Blog.PostsService.Domain.Repositories
         public Task CreatePostAsync(Post post);
 
         public Task UpdatePostAsync(Post post);
+
+        public Task<bool> ContainsAsync(PostId id);
+
+        public Task DeleteAsync(PostId id);
     }
 }

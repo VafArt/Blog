@@ -1,0 +1,74 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Blog.Common.Domain.Errors;
+using Blog.Common.ProblemDetailsImplementation;
+using Microsoft.AspNetCore.Identity;
+using Blog.Common.Domain.Results;
+
+namespace Blog.PostsService.Presentation.Services
+{
+    public class FailureHandler : IFailureHandler
+    {
+        public IResult HandleFailure(Result result) =>
+            result switch
+            {
+                { IsSuccess: true } => throw new InvalidOperationException(),
+
+                IValidationResult validationResult =>
+                Results.BadRequest(
+                    CreateProblemDetails(
+                        "Validation Error", StatusCodes.Status400BadRequest,
+                        result.Error,
+                        validationResult.Errors)),
+
+                { Error.Code: "Post.AlreadyExists" } =>
+                Results.Conflict(
+                    CreateProblemDetails(
+                        "Conflict Error",
+                        StatusCodes.Status409Conflict,
+                        result.Error)),
+
+                { Error.Code: "Post.NotFound" } =>
+                Results.NotFound(CreateNotFoundProblemDetails(
+                    "Not Found Error",
+                    StatusCodes.Status404NotFound,
+                    (result.Error as NotFoundError)!)),
+
+                _ =>
+                    Results.BadRequest(
+                        CreateProblemDetails(
+                            "Bad Request",
+                            StatusCodes.Status400BadRequest,
+                            result.Error))
+            };
+
+
+        private static ProblemDetails CreateProblemDetails(
+            string title,
+            int status,
+            Error error,
+            IEnumerable<Error>? errors = null) =>
+            new()
+            {
+                Title = title,
+                Type = error.Code,
+                Detail = error.Message,
+                Status = status,
+                Extensions = { { nameof(errors), errors } },
+            };
+
+        private static NotFoundProblemDetails CreateNotFoundProblemDetails(
+            string title,
+            int status,
+            NotFoundError error,
+            IEnumerable<Error>? errors = null) =>
+            new()
+            {
+                Title = title,
+                Type = error.Code,
+                Detail = error.Message,
+                Status = status,
+                Extensions = { { nameof(errors), errors } },
+                Id = Guid.Parse(error.Parameter)
+            };
+    }
+}

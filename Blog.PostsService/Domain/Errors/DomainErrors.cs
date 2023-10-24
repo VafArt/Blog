@@ -1,4 +1,5 @@
-﻿using Blog.Common.Domain;
+﻿using Blog.Common.Domain.Errors;
+using Blog.PostsService.Domain.Posts;
 
 namespace Blog.PostsService.Domain.Errors
 {
@@ -6,12 +7,15 @@ namespace Blog.PostsService.Domain.Errors
     {
         internal static class Post
         {
-            internal static readonly Error AlreadyExists = new Error(
+            internal static Error AlreadyExists() => new Error(
+                // если код ошибки поменяется надо будет изменить его в FailureHandler потому что в case используются только константы и перечисления
                 "Post.AlreadyExists",
                 "A post with the same id already exists");
-            internal static readonly Error NotFound = new Error(
+            internal static NotFoundError NotFound(Guid id) => new NotFoundError(
+                id.ToString(),
                 "Post.NotFound",
                 "There is no post with the specified id");
+
         }
     }
 }

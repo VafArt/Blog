@@ -1,4 +1,4 @@
-﻿using Blog.Common.Domain;
+﻿using Blog.Common.Domain.Results;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Blog.Common.CQRS
@@ -9,12 +9,11 @@ namespace Blog.Common.CQRS
 
         public QueryDispatcher(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
-        public Task<TQueryResult> Dispatch<TQuery, TQueryResult>(TQuery query, CancellationToken cancellation)
+        public Task<TQueryResult> Dispatch<TQuery, TQueryResult>(TQuery query, CancellationToken cancellation = default)
             where TQuery : IQuery
             where TQueryResult : Result
         {
-            using var scope = _serviceProvider.CreateScope();
-            var handler = scope.ServiceProvider.GetRequiredService<IQueryHandler<TQuery, TQueryResult>>();
+            var handler = _serviceProvider.GetRequiredService<IQueryHandler<TQuery, TQueryResult>>();
             return handler.Handle(query, cancellation);
         }
     }
