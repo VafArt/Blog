@@ -1,5 +1,6 @@
 ﻿using Blog.CommentsService.Domain.Comments;
 using Blog.CommentsService.Domain.Posts;
+using Blog.CommentsService.Domain.Repositories;
 using Blog.Common.Infrastructure;
 using Dapper;
 
@@ -18,8 +19,8 @@ namespace Blog.CommentsService.Infrastructure.Repositories
         {
             var dbConnection = _dbConnectionProvider.GetConnection();
             const string sql = $"""
-                INSERT INTO posts (id, created_on_utc)
-                VALUES (@{nameof(Post.Id)}, @{nameof(Post.CreatedOnUtc)});
+                INSERT INTO posts (id, user_id, title, created_on_utc)
+                VALUES (@{nameof(Post.Id)}, @{nameof(Post.UserId)}, @{nameof(Post.Title)}, @{nameof(Post.CreatedOnUtc)});
                 """;
             await dbConnection.ExecuteAsync(sql, post);
         }
@@ -29,8 +30,10 @@ namespace Blog.CommentsService.Infrastructure.Repositories
             var dbConnection = _dbConnectionProvider.GetConnection();
             const string sql = $"""
                 SELECT
-                id as {nameof(Comment.Id)},
-                created_on_utc as {nameof(Comment.CreatedOnUtc)}
+                id as {nameof(Post.Id)},
+                user_id as {nameof(Post.UserId)},
+                title as {nameof(Post.Title)},
+                created_on_utc as {nameof(Post.CreatedOnUtc)}
                 FROM posts
                 WHERE id = @postId
                 """;

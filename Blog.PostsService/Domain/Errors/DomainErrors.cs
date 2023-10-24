@@ -17,5 +17,18 @@ namespace Blog.PostsService.Domain.Errors
                 "There is no post with the specified id");
 
         }
+
+        internal static class User
+        {
+            internal static Error AlreadyExists() => new Error(
+                // если код ошибки поменяется надо будет изменить его в FailureHandler потому что в case используются только константы и перечисления
+                "User.AlreadyExists",
+                "A user with the same id already exists");
+            internal static NotFoundError NotFound(Guid id) => new NotFoundError(
+                id.ToString(),
+                "User.NotFound",
+                "There is no user with the specified id");
+
+        }
     }
 }

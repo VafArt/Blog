@@ -24,5 +24,13 @@ namespace Blog.CommentsService.Domain.Errors
                 "Post.NotFound",
                 "There is no post with the specified id");
         }
+
+        public static class User
+        {
+            public static NotFoundError NotFound(Guid id) => new NotFoundError(
+                id.ToString(),
+                "User.NotFound",
+                "There is no user with the specified id");
+        }
     }
 }

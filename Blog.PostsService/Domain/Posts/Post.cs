@@ -1,8 +1,12 @@
-﻿namespace Blog.PostsService.Domain.Posts
+﻿using Blog.PostsService.Domain.Users;
+
+namespace Blog.PostsService.Domain.Posts
 {
     public class Post
     {
         public PostId Id { get; set; } = null!;
+
+        public UserId UserId { get; set; } = null!;
 
         public string Title { get; set; } = string.Empty;
 

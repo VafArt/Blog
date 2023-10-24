@@ -11,6 +11,7 @@ using System.Text;
 using Blog.IdentityService.Presentation;
 using Blog.IdentityService.Infrastructure;
 using Blog.IdentityService.Application;
+using Blog.Common.Application.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +50,7 @@ var app = builder.Build();
 
 app.UseCommonLogging();
 
+//app.UseGlobalExceptionHandling();
 
 app.UseSwagger();
 app.UseSwaggerUI();

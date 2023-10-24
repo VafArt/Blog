@@ -1,4 +1,4 @@
-﻿using Blog.CommentsService.Domain.Comments;
+﻿using Blog.CommentsService.Domain.Posts;
 using Dapper;
 using System.Data;
 

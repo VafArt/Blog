@@ -12,6 +12,7 @@ namespace Blog.CommentsService.Infrastructure
         {
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             SqlMapper.AddTypeHandler(new PostIdHandler());
             SqlMapper.AddTypeHandler(new CommentIdHandler());

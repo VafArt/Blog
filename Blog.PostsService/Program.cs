@@ -36,7 +36,7 @@ builder.Host.UseCommonLogging();
 
 var app = builder.Build();
 
-app.UseGlobalExceptionHandling();
+//app.UseGlobalExceptionHandling();
 
 app.UseCommonLogging();
 

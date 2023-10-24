@@ -40,8 +40,8 @@ namespace Blog.PostsService.Infrastructure.Repositories
         {
             var dbConnection = _dbConnectionProvider.GetConnection();
             const string sql = $"""
-                INSERT INTO posts (id, title, content, created_on_utc)
-                VALUES (@{nameof(Post.Id)}, @{nameof(Post.Title)}, @{nameof(Post.Content)}, @{nameof(Post.CreatedOnUtc)});
+                INSERT INTO posts (id, user_id, title, content, created_on_utc)
+                VALUES (@{nameof(Post.Id)}, @{nameof(Post.UserId)}, @{nameof(Post.Title)}, @{nameof(Post.Content)}, @{nameof(Post.CreatedOnUtc)});
                 """;
             await dbConnection.ExecuteAsync(sql, post);
             await CreateTagsAsync(post.Tags);
@@ -67,6 +67,7 @@ namespace Blog.PostsService.Infrastructure.Repositories
             const string sql = $"""
                 SELECT
                 p.id as {nameof(Post.Id)},
+                p.user_id as {nameof(Post.UserId)},
                 p.title as {nameof(Post.Title)},
                 p.content as {nameof(Post.Content)},
                 p.preview_image_uri as {nameof(Post.PreviewImageUri)},
@@ -109,6 +110,7 @@ namespace Blog.PostsService.Infrastructure.Repositories
             const string sql = $"""
                 SELECT
                 p.id as {nameof(Post.Id)},
+                p.user_id as {nameof(Post.UserId)},
                 p.title as {nameof(Post.Title)},
                 p.content as {nameof(Post.Content)},
                 p.preview_image_uri as {nameof(Post.PreviewImageUri)},

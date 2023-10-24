@@ -1,5 +1,7 @@
 ﻿using Blog.PostsService.Application.Mappings;
+using Blog.PostsService.Application.Users.Created;
 using FluentValidation;
+using MassTransit;
 using System.Reflection;
 
 namespace Blog.PostsService.Application

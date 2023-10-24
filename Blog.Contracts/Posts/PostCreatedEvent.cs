@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Blog.Contracts.Posts
 {
-    public sealed record PostCreatedEvent(Guid PostId, string Title, DateTime CreatedOnUtc);
+    public sealed record PostCreatedEvent(Guid PostId, Guid UserId, string Title, DateTime CreatedOnUtc);
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Blog.CommentsService.Domain.Posts;
+using Blog.CommentsService.Domain.Users;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Blog.CommentsService.Domain.Comments
 {

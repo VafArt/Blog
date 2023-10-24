@@ -12,7 +12,10 @@ namespace Blog.PostsService.Infrastructure
         {
             services.AddScoped<IPostRepository, PostRepository>();
 
+            services.AddScoped<IUserRepository, UserRepository>();
+
             SqlMapper.AddTypeHandler(new PostIdHandler());
+            SqlMapper.AddTypeHandler(new UserIdHandler());
 
             services.AddSingleton<IDbInitializer, NpgsqlPostsDbInitializer>();
 

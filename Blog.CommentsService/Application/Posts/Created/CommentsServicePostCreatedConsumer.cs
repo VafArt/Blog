@@ -1,6 +1,6 @@
-﻿using Blog.CommentsService.Domain.Comments;
-using Blog.CommentsService.Domain.Posts;
-using Blog.CommentsService.Infrastructure.Repositories;
+﻿using Blog.CommentsService.Domain.Posts;
+using Blog.CommentsService.Domain.Repositories;
+using Blog.CommentsService.Domain.Users;
 using Blog.Common.Domain.Repositories;
 using Blog.Contracts.Posts;
 using MassTransit;
@@ -25,6 +25,8 @@ namespace Blog.CommentsService.Application.Posts.Created
             var post = new Post
             {
                 Id = PostId.Create(context.Message.PostId),
+                UserId = UserId.Create(context.Message.UserId),
+                Title = context.Message.Title,
                 CreatedOnUtc = context.Message.CreatedOnUtc
             };
 

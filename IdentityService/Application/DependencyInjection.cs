@@ -1,4 +1,5 @@
 ﻿using Blog.IdentityService.Application.Auth;
+using Blog.IdentityService.Application.Mappings;
 using FluentValidation;
 using System.Reflection;
 
@@ -11,6 +12,8 @@ namespace Blog.IdentityService.Application
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             services.AddSingleton<ITokenProvider, TokenProvider>();
+
+            services.AddSingleton<IUserMapper, UserMapper>();
 
             return services;
         }

@@ -1,8 +1,9 @@
 ﻿using Blog.CommentsService.Application.Mappings;
 using Blog.CommentsService.Domain.Comments;
 using Blog.CommentsService.Domain.Errors;
+using Blog.CommentsService.Domain.Posts;
 using Blog.CommentsService.Domain.Repositories;
-using Blog.CommentsService.Infrastructure.Repositories;
+using Blog.CommentsService.Domain.Users;
 using Blog.Common.CQRS;
 using Blog.Common.Domain.Repositories;
 using Blog.Common.Domain.Results;
@@ -13,20 +14,25 @@ namespace Blog.CommentsService.Application.Comments.CreateComment
     {
         private readonly ICommentRepository _commentRepository;
         private readonly IPostRepository _postRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
         private readonly ICommentMapper _commentMapper;
 
-        public CreateCommentCommandHandler(ICommentRepository commentRepository, IUnitOfWorkFactory unitOfWorkFactory, ICommentMapper commentMapper, IPostRepository postRepository)
+        public CreateCommentCommandHandler(ICommentRepository commentRepository, IUnitOfWorkFactory unitOfWorkFactory, ICommentMapper commentMapper, IPostRepository postRepository, IUserRepository userRepository)
         {
             _commentRepository = commentRepository;
             _unitOfWorkFactory = unitOfWorkFactory;
             _commentMapper = commentMapper;
             _postRepository = postRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<Result<CreateCommentCommandResponse>> Handle(CreateCommentCommand command, CancellationToken cancellation)
         {
             using var unitOfWork = _unitOfWorkFactory.Create();
+
+            if (!await _userRepository.ContainsAsync(UserId.Create(command.UserId)))
+                return Result.Failure(new CreateCommentCommandResponse(), DomainErrors.User.NotFound(command.UserId));
 
             if (await _commentRepository.ContainsAsync(CommentId.Create(command.CommentId))) 
                 return Result.Failure(new CreateCommentCommandResponse(), DomainErrors.Comment.AlreadyExists());

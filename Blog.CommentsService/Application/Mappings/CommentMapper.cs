@@ -2,6 +2,8 @@
 using Blog.CommentsService.Application.Comments.Queries;
 using Blog.CommentsService.Application.Comments.Queries.GetAllComments;
 using Blog.CommentsService.Domain.Comments;
+using Blog.CommentsService.Domain.Posts;
+using Blog.CommentsService.Domain.Users;
 using Riok.Mapperly.Abstractions;
 
 namespace Blog.CommentsService.Application.Mappings

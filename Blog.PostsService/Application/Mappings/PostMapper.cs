@@ -4,6 +4,7 @@ using Riok.Mapperly.Abstractions;
 using Blog.PostsService.Application.Posts.Queries.GetAllPosts;
 using Blog.PostsService.Application.Posts.Commands.CreatePost;
 using Blog.PostsService.Application.Posts.Commands.UpdatePost;
+using Blog.PostsService.Domain.Users;
 
 namespace Blog.PostsService.Application.Mappings
 {
@@ -39,5 +40,6 @@ namespace Blog.PostsService.Application.Mappings
 
         // Shared
         private Guid MapPostIdToGuid(PostId postId) => postId.Value;
+        private Guid MapUserIdToGuid(UserId userId) => userId.Value;
     }
 }

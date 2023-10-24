@@ -8,6 +8,9 @@ namespace Blog.PostsService.Application.Posts.Commands.CreatePost
         [JsonPropertyName("postId")]
         public Guid PostId { get; set; }
 
+        [JsonPropertyName("userId")]
+        public Guid UserId { get; set; }
+
         [JsonPropertyName("title")]
         public string Title { get; set; } = string.Empty;
 

@@ -1,4 +1,5 @@
 ﻿using Blog.IdentityService.Domain.ApplicationUsers;
+using Blog.IdentityService.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +26,9 @@ namespace Blog.IdentityService.Infrastructure
             .AddDefaultTokenProviders();
 
             services.AddScoped<IDbInitializer, DbInitializer>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
 
             return services;
         }

@@ -30,6 +30,26 @@ namespace Blog.CommentsService.Infrastructure
             using var connection = _dbConnectionFactory.Create();
             await InitCommentsAsync(connection);
             await InitPostsAsync(connection);
+            await InitUsersAsync(connection);
+        }
+
+        private async Task InitUsersAsync(DbConnection connection)
+        {
+            var sql = """
+                CREATE TABLE IF NOT EXISTS users (
+            	id uuid PRIMARY KEY,
+            	username VARCHAR(50) NOT NULL
+            );
+            """;
+            _logger.LogInformation("Initializing users table");
+            try
+            {
+                await connection.ExecuteAsync(sql);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical("Application exception occured while initializing user table {@Message}, {@Source}, {@StackTrace}", ex.Message, ex.Source, ex.StackTrace);
+            }
         }
 
         private async Task InitPostsAsync(DbConnection connection)
@@ -37,6 +57,8 @@ namespace Blog.CommentsService.Infrastructure
             var sql = """
                 CREATE TABLE IF NOT EXISTS posts (
             	id uuid PRIMARY KEY,
+                user_id uuid references users(id),
+                title VARCHAR(50) NOT NULL,
             	created_on_utc timestamp without time zone NOT NULL
             );
             """;

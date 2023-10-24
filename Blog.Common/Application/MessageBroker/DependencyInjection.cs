@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Blog.Common.Application.MessageBroker
 {
@@ -22,6 +23,8 @@ namespace Blog.Common.Application.MessageBroker
 
                     congifurator.ConfigureEndpoints(context);
                 });
+
+                busConfigurator.AddConsumers(Assembly.GetEntryAssembly());
             });
 
             return services;
